@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CORE-GPT Evaluation Platform</title>
+    <style>
+      body {
+        width: 75%;
+        resize: none;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 14pt;
+      }
+      
+      .horizontal-line {
+		width: 75%;
+		height: 1px;
+		background-color: #000;
+		margin: 10px 0;
+	  }
+      textarea {
+        width: 75%;
+        resize: none;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 12pt;
+        overflow: hidden;
+        min-height: 4em;
+        max-height: 100%;
+      }
+      textarea.question, textarea.answer, textarea.abstract {
+        min-height: 10em; /* Set the min-height for question, answer, and abstract boxes */
+      }
+      button[type="submit"] {
+        font-size: 16pt;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="https://ibb.co/gMCkfXb"><img src="https://i.ibb.co/qMwTc4L/core-gpt-banner.png" alt="core-gpt-banner" border="0"></a>
+    <!-- Rest of the HTML content -->
+    <textarea rows="4" readonly>Welcome to the CORE-GPT Evaluation platform. Please read the following instructions carefully.&#10;&#10;Please score each answer according to how comprehensive the answer is, how trustworthy it is and how useful it is. Please then review the title and abstract for each paper and score according to relevance to the question.</textarea>
+
+    <form method="POST">
+      <input type="hidden" name="index" value="{{ index }}">
+      <input type="hidden" name="question_number" value="{{ question_number }}">
+      <p><b>Question:<b></p>
+      <textarea rows="2" readonly>{{ row.question }}</textarea>
+      <p>Answer:</p>
+      <textarea class="answer" readonly>{{ row.answer }}</textarea>
+      <div class="horizontal-line"></div> 
+      <p>How comprehensively does the above text answer the question?</p>
+      <input type="range" min="0" max="10" value="0" id="scale">
+      <input type="hidden" name="scale_value" id="hidden_scale_value" value="0">
+      <span id="scale_value_display">0</span>
+      <p>How trustworthy is the answer?</p>
+      <input type="range" min="0" max="10" value="0" id="trust">
+      <input type="hidden" name="trust_value" id="hidden_trust_value" value="0">
+      <span id="trust_value_display">0</span> 
+ 
+      <p>How useful is the answer?</p>
+      <input type="range" min="0" max="10" value="0" id="utility">
+      <input type="hidden" name="utility_value" id="hidden_utility_value" value="0">
+      <span id="utility_value_display">0</span> 
+      
+      <div class="horizontal-line"></div>     
+
+           
+      <p>For the following papers, consider how relevant to the question they are and score accordingly.
+      </p>
+      {% for i in range(1, 6) %}
+      <p>Title {{ i }}:</p>
+      <textarea rows="2" readonly>{{ row['title_' ~ i] }}</textarea>
+      <p>Abstract {{ i }}:</p>
+      <textarea class="abstract" readonly>{{ row['abstract_' ~ i] }}</textarea>
+      
+      <p>RELEVANCE:</p>
+      <input type="range" min="0" max="10" value="0" id="relevance_{{ i }}">
+      <input type="hidden" name="relevance_{{ i }}" id="hidden_relevance_{{ i }}" value="0">
+      <span id="relevance_value_display_{{ i }}">0</span>
+ 
+      <div class="horizontal-line"></div>
+      {% endfor %}
+      <br>
+      <button type="submit">SAVE AND CONTINUE</button>
+    </form>
+    <script>
+      const scale = document.getElementById("scale");
+      const scaleValueDisplay = document.getElementById("scale_value_display");
+      const hiddenScaleValue = document.getElementById("hidden_scale_value");
+      
+        const trust = document.getElementById("trust");
+        const trustValueDisplay = document.getElementById("trust_value_display");
+        const hiddenTrustValue = document.getElementById("hidden_trust_value");
+
+        const utility = document.getElementById("utility");
+        const utilityValueDisplay = document.getElementById("utility_value_display");
+        const hiddenUtilityValue = document.getElementById("hidden_utility_value");
+
+      scale.addEventListener("input", function() {
+        scaleValueDisplay.textContent = scale.value;
+        hiddenScaleValue.value = scale.value;
+      });
+        
+    	trust.addEventListener("input", function() {
+          trustValueDisplay.textContent = trust.value;
+          hiddenTrustValue.value = trust.value;
+        });
+        
+    	utility.addEventListener("input", function() {
+          utilityValueDisplay.textContent = utility.value;
+          hiddenUtilityValue.value = utility.value;
+        });
+
+      for (let i = 1; i <= 5; i++) {
+        const relevance = document.getElementById(`relevance_${i}`);
+        const relevanceValueDisplay = document.getElementById(`relevance_value_display_${i}`);
+        const hiddenRelevanceValue = document.getElementById(`hidden_relevance_${i}`);
+
+        relevance.addEventListener("input", function() {
+          relevanceValueDisplay.textContent = relevance.value;
+          hiddenRelevanceValue.value = relevance.value;
+        });
+        
+      }
+    </script>
+  </body>
+</html>
