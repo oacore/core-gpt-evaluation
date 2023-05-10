@@ -61,6 +61,12 @@ def enter_id():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    response = make_response(redirect('/enter_id'))
+    return response
+
+
+@app.route('/evaluate', methods=['GET', 'POST'])
+def evaluate():
     if request.method == 'POST':
         annotator_id = int(request.form['annotator_id'])
         if annotator_id is None:
