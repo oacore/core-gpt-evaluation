@@ -1,5 +1,5 @@
 import csv
-from flask import Flask, render_template, request, make_response, redirect
+from flask import Flask, render_template, request, make_response, redirect, send_file
 import sqlite3
 
 app = Flask(__name__, template_folder=".")
@@ -63,6 +63,10 @@ def enter_id():
 def index():
     response = make_response(redirect('/enter_id'))
     return response
+
+@app.route('/download', methods=['GET'])
+def download():
+    return send_file("results.db", as_attachment=True)
 
 
 @app.route('/evaluate', methods=['GET', 'POST'])
