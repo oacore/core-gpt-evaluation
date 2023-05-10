@@ -47,23 +47,23 @@
       <input type="hidden" name="annotator_id" id="annotator_id" value="{{annotator_id}}">
       <input type="hidden" name="index" value="{{ index }}">
       <input type="hidden" name="question_number" value="{{ question_number }}">
-      <p><b>Question:<b></p>
+      <p><b>Question:</b></p>
       <textarea rows="2" readonly>{{ row.question }}</textarea>
       <p>Answer:</p>
       <textarea class="answer" readonly>{{ row.answer }}</textarea>
       <div class="horizontal-line"></div> 
       <p>How comprehensively does the above text answer the question?</p>
-      <input type="range" min="0" max="10" value="0" id="scale">
-      <input type="hidden" name="scale_value" id="hidden_scale_value" value="0">
+      <input type="range" min="0" max="10" value="-1" id="scale">
+      <input type="hidden" name="scale_value" id="hidden_scale_value" value="-1">
       <span id="scale_value_display">0</span>
       <p>How trustworthy is the answer?</p>
-      <input type="range" min="0" max="10" value="0" id="trust">
-      <input type="hidden" name="trust_value" id="hidden_trust_value" value="0">
+      <input type="range" min="0" max="10" value="-1" id="trust">
+      <input type="hidden" name="trust_value" id="hidden_trust_value" value="-1">
       <span id="trust_value_display">0</span> 
  
       <p>How useful is the answer?</p>
-      <input type="range" min="0" max="10" value="0" id="utility">
-      <input type="hidden" name="utility_value" id="hidden_utility_value" value="0">
+      <input type="range" min="0" max="10" value="-1" id="utility">
+      <input type="hidden" name="utility_value" id="hidden_utility_value" value="-1">
       <span id="utility_value_display">0</span> 
       
       <div class="horizontal-line"></div>     
@@ -78,8 +78,8 @@
       <textarea class="abstract" readonly>{{ row['abstract_' ~ i] }}</textarea>
       
       <p>RELEVANCE:</p>
-      <input type="range" min="0" max="10" value="0" id="relevance_{{ i }}">
-      <input type="hidden" name="relevance_{{ i }}" id="hidden_relevance_{{ i }}" value="0">
+      <input type="range" min="0" max="10" value="-1" id="relevance_{{ i }}">
+      <input type="hidden" name="relevance_{{ i }}" id="hidden_relevance_{{ i }}" value="-1">
       <span id="relevance_value_display_{{ i }}">0</span>
  
       <div class="horizontal-line"></div>
