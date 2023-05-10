@@ -44,6 +44,7 @@
     <textarea rows="4" readonly>Welcome to the CORE-GPT Evaluation platform. Please read the following instructions carefully.&#10;&#10;Please score each answer according to how comprehensive the answer is, how trustworthy it is and how useful it is. Please then review the title and abstract for each paper and score according to relevance to the question.</textarea>
 
     <form method="POST">
+      <input type="hidden" name="annotator_id" id="annotator_id" value="{{annotator_id}}">
       <input type="hidden" name="index" value="{{ index }}">
       <input type="hidden" name="question_number" value="{{ question_number }}">
       <p><b>Question:<b></p>

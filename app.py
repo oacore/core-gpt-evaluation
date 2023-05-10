@@ -54,7 +54,6 @@ def enter_id():
     if request.method == 'POST':
         annotator_id = request.form['annotator_id']
         response = make_response(redirect('/'))
-        response.set_cookie('annotator_id', str(annotator_id))
         return response
     else:
         return render_template('enter_id.html')
@@ -63,11 +62,10 @@ def enter_id():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        annotator_id = request.cookies.get('annotator_id')
+        annotator_id = int(request.form['annotator_id'])
         if annotator_id is None:
-            annotator_id = int(request.form['annotator_id'])
+            return render_template('enter_id.html')
         question_number = get_stage_value(annotator_id)
-
         if 'index' in request.form:
             index = int(request.form['index']) - 1
             print(f"Question Number {question_number}:")
@@ -93,7 +91,6 @@ def index():
 
             question_number += 1
         else:
-            annotator_id = request.cookies.get('annotator_id')
             if annotator_id is None:
                 return render_template('enter_id.html')
             else:
@@ -101,30 +98,18 @@ def index():
                 data = read_csv('output.csv')
                 row = data[index]
                 response = make_response(
-                    render_template('index.html', row=row, index=index + 1, question_number=question_number))
-                response.set_cookie('annotator_id', str(annotator_id))
+                    render_template('index.html', row=row, index=index + 1, question_number=question_number, annotator_id=annotator_id))
                 return response
 
         index = int(request.form['index'])
         data = read_csv('output.csv')
         row = data[question_number]
         response = make_response(
-            render_template('index.html', row=row, index=index + 1, question_number=question_number))
-        response.set_cookie('annotator_id', str(annotator_id))
+            render_template('index.html', row=row, index=index + 1, question_number=question_number, annotator_id=annotator_id))
         return response
     else:
-        annotator_id = request.cookies.get('annotator_id')
-        if annotator_id is None:
-            return render_template('enter_id.html')
-        else:
-            question_number = get_stage_value(annotator_id)
-            index = 0
-            data = read_csv('output.csv')
-            row = data[question_number]
-            response = make_response(
-                render_template('index.html', row=row, index=index + 1, question_number=question_number))
-            response.set_cookie('annotator_id', str(annotator_id))
-            return response
+        response = make_response(redirect('/enter_id'))
+        return response
 
 
 if __name__ == '__main__':
